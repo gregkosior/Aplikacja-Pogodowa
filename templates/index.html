@@ -1,0 +1,40 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <form method="get" class="mb-3">
+      <div class="input-group">
+        <input name="city" class="form-control" placeholder="Wpisz miasto (np. Warszawa)" value="{{ query }}">
+        <button class="btn btn-primary" type="submit">Szukaj</button>
+      </div>
+    </form>
+
+    {% if weather %}
+      {% if weather.error %}
+        <div class="alert alert-danger">{{ weather.error }}</div>
+      {% else %}
+        <div class="card">
+          <div class="card-body d-flex">
+            <div class="me-3">
+              {% if weather.icon_url %}
+                <img src="{{ weather.icon_url }}" alt="ikonka pogody">
+              {% endif %}
+            </div>
+            <div>
+              <h5 class="card-title">{{ weather.name }}, {{ weather.sys.country }}</h5>
+              <p class="card-text mb-1"><strong>Temperatura:</strong> {{ weather.main.temp }} C</p>
+              <p class="card-text mb-1"><strong>Odczuwalna:</strong> {{ weather.main.feels_like }} C</p>
+              <p class="card-text mb-1"><strong>Wilgotność:</strong> {{ weather.main.humidity }}%</p>
+              <p class="card-text mb-1"><strong>Wiatr:</strong> {{ weather.wind.speed }} m/s</p>
+              <p class="card-text"><strong>Warunki:</strong> {{ weather.weather[0].description }}</p>
+              <small class="text-muted">Dane: OpenWeatherMap</small>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% else %}
+      <p class="text-muted">Wprowadź miasto i naciśnij "Szukaj".</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
